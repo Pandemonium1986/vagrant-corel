@@ -1,3 +1,4 @@
+---
 # my global config
 global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
@@ -26,7 +27,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-    - targets:         ['localhost:9090']
+    - targets:         [ 'localhost:9090' ]
   ## Scrape Config - Tower
   - job_name:          'tower'
     metrics_path:      /api/v2/metrics
@@ -41,4 +42,4 @@ scrape_configs:
   - job_name:          'tower-01'
     scrape_interval:   5s
     static_configs:
-    - targets:         ['192.168.66.101:9100']
+    - targets:         [ '192.168.66.101:9100' ]

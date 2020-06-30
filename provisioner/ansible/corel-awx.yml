@@ -13,6 +13,7 @@
       loop:
         - "/home/vagrant/git/ansible/awx"
         - "/home/vagrant/git/redhat-cop/tower_grafana_dashboards"
+      become:      true
       become_user: vagrant
     - name:        Clone git repositories
       git:
@@ -22,4 +23,5 @@
       loop:
         - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 13.0.0 }
         - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
+      become:      true
       become_user: vagrant
