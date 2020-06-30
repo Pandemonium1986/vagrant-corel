@@ -40,7 +40,7 @@ Vagrant.configure('2') do |config|
     awx.vm.provision 'shell-corel-awx', type: 'shell', run: 'once' do |shell|
       shell.path = 'provisioner/shell/corel-awx.sh'
       shell.keep_color = 'true'
-      shell.name = 'corel'
+      shell.name = 'shell-corel-awx'
     end
     awx.vm.provider :virtualbox do |vb|
       vb.memory = '4096'
@@ -64,6 +64,11 @@ Centos 8 provided with my basic tools and ansible."]
     obs.vm.box = 'centos/8'
     obs.vm.hostname = 'corel-obs-cts'
     obs.vm.network 'private_network', ip: '192.168.66.101'
+    obs.vm.provision 'shell-corel-obs', type: 'shell', run: 'once' do |shell|
+      shell.path = 'provisioner/shell/corel-obs.sh'
+      shell.keep_color = 'true'
+      shell.name = 'shell-corel-obs'
+    end
     obs.vm.provider :virtualbox do |vb|
       vb.memory = '2048'
       vb.name = 'corel-obs-cts'
