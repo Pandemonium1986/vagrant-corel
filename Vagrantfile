@@ -27,56 +27,57 @@ Vagrant.configure('2') do |config|
     ansible.playbook = 'provisioner/ansible/corel-cts.yml'
   end
 
-  # Ansible box
-  config.vm.define 'corel-ans-cts' do |ans|
-    ans.vm.box = 'centos/8'
-    ans.vm.hostname = 'corel-ans-cts'
-    ans.vm.network 'private_network', ip: '192.168.66.100'
-    ans.vm.post_up_message = '
-#####################################
-##   Starting corel-ans-cts done   ##
-#####################################
-'
-    ans.vm.provider :virtualbox do |vb|
-      vb.name = 'corel-ans-cts'
+  # Awx box
+  config.vm.define 'corel-awx-cts' do |awx|
+    awx.vm.box = 'centos/8'
+    awx.vm.hostname = 'corel-awx-cts'
+    awx.vm.network 'private_network', ip: '192.168.66.100'
+    awx.vm.provision 'ansible-corel-awx', type: 'ansible', run: 'once' do |ansible|
+      ansible.compatibility_mode = '2.0'
+      ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
+      ansible.playbook = 'provisioner/ansible/corel-awx.yml'
+    end
+    awx.vm.provision 'shell-corel-awx', type: 'shell', run: 'once' do |shell|
+      shell.path = 'provisioner/shell/corel-awx.sh'
+      shell.keep_color = 'true'
+      shell.name = 'corel'
+    end
+    awx.vm.provider :virtualbox do |vb|
+      vb.memory = '4096'
+      vb.name = 'corel-awx-cts'
       vb.customize ['modifyvm', :id, '--description', "
 ###############
-### corel-ans-cts ###
+### corel-awx-cts ###
 ###############
 Vagrant Box
 Centos 8 provided with my basic tools and ansible."]
+      awx.vm.post_up_message = '
+      #####################################
+      ##   Starting corel-awx-cts done   ##
+      #####################################
+    '
     end
   end
 
-  # Awx/Prometheus/Grafana box
-  config.vm.define 'corel-tls-cts' do |tls|
-    tls.vm.box = 'centos/8'
-    tls.vm.hostname = 'corel-tls-cts'
-    tls.vm.network 'private_network', ip: '192.168.66.101'
-    # tls.vm.provision 'shell-corel', type: 'shell', run: 'once' do |shell|
-    #   shell.path = 'provisioner/shell/corel.sh'
-    #   shell.keep_color = 'true'
-    #   shell.name = 'corel'
-    # end
-    tls.vm.provision 'ansible-corel-tls', type: 'ansible', run: 'once' do |ansible|
-      ansible.compatibility_mode = '2.0'
-      ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
-      ansible.playbook = 'provisioner/ansible/corel-tls.yml'
-    end
-    tls.vm.post_up_message = '
-#####################################
-##   Starting corel-tls-cts done   ##
-#####################################
- '
-    tls.vm.provider :virtualbox do |vb|
-      vb.memory = '8192'
-      vb.name = 'corel-tls-cts'
+  # Observability box
+  config.vm.define 'corel-obs-cts' do |obs|
+    obs.vm.box = 'centos/8'
+    obs.vm.hostname = 'corel-obs-cts'
+    obs.vm.network 'private_network', ip: '192.168.66.101'
+    obs.vm.provider :virtualbox do |vb|
+      vb.memory = '2048'
+      vb.name = 'corel-obs-cts'
       vb.customize ['modifyvm', :id, '--description', "
 ###############
-### corel-tls-cts ###
+### corel-obs-cts ###
 ###############
 Vagrant Box
 Centos 8 provided with docker and docker-compose."]
+      obs.vm.post_up_message = '
+      #####################################
+      ##   Starting corel-obs-cts done   ##
+      #####################################
+    '
     end
   end
 end

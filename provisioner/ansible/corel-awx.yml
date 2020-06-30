@@ -1,5 +1,5 @@
 ---
-- name:            Corel Tools installation
+- name:            Corel Awx installation
   hosts:           all
   become:          true
   become_method:   sudo
@@ -20,6 +20,6 @@
         dest:      "{{ item.dest }}"
         version:   "{{ item.version }}"
       loop:
-        - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 11.2.0 }
+        - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 13.0.0 }
         - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
       become_user: vagrant
