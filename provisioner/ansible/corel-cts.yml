@@ -1,0 +1,26 @@
+---
+- name:                Corel CentOs installation
+  hosts:               all
+  become:              true
+  become_method:       sudo
+  become_user:         root
+  tasks:
+    - name:            Upgrade all packages
+      dnf:
+        name:          "*"
+        state:         latest
+    - name:            Install the latest version of Curl Git Vim
+      dnf:
+        name:          [ 'curl', 'git', 'vim' ]
+        state:         latest
+    - import_role:
+        name:          pandemonium1986.ansible
+      vars:
+        ansible_users:
+          - vagrant
+    - import_role:
+        name:          geerlingguy.docker
+    - name:            Ensure pip package docker-compose is install
+      pip:
+        name:          docker-compose
+        executable:    /usr/local/bin/pip

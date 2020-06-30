@@ -1,9 +1,25 @@
 ---
-- name:          Corel Tools installation
-  hosts:         all
-  become:        true
-  become_method: sudo
-  become_user:   root
+- name:            Corel Tools installation
+  hosts:           all
+  become:          true
+  become_method:   sudo
+  become_user:     root
   tasks:
-    - import_role:
-        name:    geerlingguy.docker
+    - name:        Create Git directories
+      file:
+        path:      "{{ item }}"
+        state:     directory
+        mode:      '0755'
+      loop:
+        - "/home/vagrant/git/ansible/awx"
+        - "/home/vagrant/git/redhat-cop/tower_grafana_dashboards"
+      become_user: vagrant
+    - name:        Clone git repositories
+      git:
+        repo:      "{{ item.repo }}"
+        dest:      "{{ item.dest }}"
+        version:   "{{ item.version }}"
+      loop:
+        - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 11.2.0 }
+        - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
+      become_user: vagrant

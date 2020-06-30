@@ -20,6 +20,13 @@ Vagrant.configure('2') do |config|
     vb.memory = '1024'
   end
 
+  # Provisioning configuration
+  config.vm.provision 'ansible-corel-cts', type: 'ansible', run: 'once' do |ansible|
+    ansible.compatibility_mode = '2.0'
+    ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
+    ansible.playbook = 'provisioner/ansible/corel-cts.yml'
+  end
+
   # Ansible box
   config.vm.define 'corel-ans-cts' do |ans|
     ans.vm.box = 'centos/8'
@@ -30,11 +37,6 @@ Vagrant.configure('2') do |config|
 ##   Starting corel-ans-cts done   ##
 #####################################
 '
-    ans.vm.provision 'ansible-corel-ans', type: 'ansible', run: 'once' do |ansible|
-      ansible.compatibility_mode = '2.0'
-      ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
-      ansible.playbook = 'provisioner/ansible/corel-ans.yml'
-    end
     ans.vm.provider :virtualbox do |vb|
       vb.name = 'corel-ans-cts'
       vb.customize ['modifyvm', :id, '--description', "
