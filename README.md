@@ -1,10 +1,10 @@
 # Vagrant Corel
 
 [![Vagrant Cloud](https://img.shields.io/badge/vagrant-corel-lightgrey.svg)](https://app.vagrantup.com/pandemonium/)
-![](https://img.shields.io/github/release/Pandemonium1986/corel.svg)
-![](https://img.shields.io/github/repo-size/Pandemonium1986/corel.svg)
-![](https://img.shields.io/github/release-date/Pandemonium1986/corel.svg)
-![](https://img.shields.io/github/license/Pandemonium1986/corel.svg)
+![](https://img.shields.io/github/release/Pandemonium1986/vagrant-corel.svg)
+![](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-corel.svg)
+![](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-corel.svg)
+![](https://img.shields.io/github/license/Pandemonium1986/vagrant-corel.svg)
 
 Collection of virtual machines containing tools for lab, study or demonstration purposes.
 
