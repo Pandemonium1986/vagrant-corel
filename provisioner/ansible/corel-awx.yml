@@ -25,3 +25,7 @@
         - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
       become:      true
       become_user: vagrant
+    - name:            Ensure pip package awx-cli is install
+      pip:
+        name:          https://releases.ansible.com/ansible-tower/cli/ansible-tower-cli-latest.tar.gz
+        executable:    /usr/local/bin/pip
