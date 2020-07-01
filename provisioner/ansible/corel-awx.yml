@@ -1,31 +1,31 @@
 ---
-- name:            Corel Awx installation
-  hosts:           all
-  become:          true
-  become_method:   sudo
-  become_user:     root
+- name:             Corel Awx installation
+  hosts:            all
+  become:           true
+  become_method:    sudo
+  become_user:      root
   tasks:
-    - name:        Create Git directories
+    - name:         Create Git directories
       file:
-        path:      "{{ item }}"
-        state:     directory
-        mode:      '0755'
+        path:       "{{ item }}"
+        state:      directory
+        mode:       '0755'
       loop:
         - "/home/vagrant/git/ansible/awx"
         - "/home/vagrant/git/redhat-cop/tower_grafana_dashboards"
-      become:      true
-      become_user: vagrant
-    - name:        Clone git repositories
+      become:       true
+      become_user:  vagrant
+    - name:         Clone git repositories
       git:
-        repo:      "{{ item.repo }}"
-        dest:      "{{ item.dest }}"
-        version:   "{{ item.version }}"
+        repo:       "{{ item.repo }}"
+        dest:       "{{ item.dest }}"
+        version:    "{{ item.version }}"
       loop:
         - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 13.0.0 }
         - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
-      become:      true
-      become_user: vagrant
-    - name:            Ensure pip package awx-cli is install
+      become:       true
+      become_user:  vagrant
+    - name:         Ensure pip package awx-cli is install
       pip:
-        name:          https://releases.ansible.com/ansible-tower/cli/ansible-tower-cli-latest.tar.gz
-        executable:    /usr/local/bin/pip
+        name:       https://releases.ansible.com/ansible-tower/cli/ansible-tower-cli-latest.tar.gz
+        executable: /usr/local/bin/pip

@@ -47,6 +47,13 @@ Vagrant.configure('2') do |config|
       shell.keep_color = 'true'
       shell.name = 'shell-corel-awx'
     end
+    awx.vm.provision 'ansible-local-corel-awx', type: 'ansible_local', run: 'once' do |ansible|
+      ansible.extra_vars = {
+        tower_config_file: 'tower_cli.cfg'
+      }
+      ansible.compatibility_mode = '2.0'
+      ansible.playbook = 'provisioner/ansible-local/awx-initialization.yml'
+    end
     awx.vm.provider :virtualbox do |vb|
       vb.memory = '4096'
       vb.name = 'corel-awx-cts'
@@ -88,6 +95,5 @@ Centos 8 provisioned with :
  * Grafana
  * Prometheus"]
     end
-
   end
 end
