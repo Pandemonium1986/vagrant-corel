@@ -32,6 +32,11 @@ Vagrant.configure('2') do |config|
     awx.vm.box = 'centos/8'
     awx.vm.hostname = 'corel-awx-cts'
     awx.vm.network 'private_network', ip: '192.168.66.100'
+    awx.vm.post_up_message = '
+      #####################################
+      ##   Starting corel-awx-cts done   ##
+      #####################################
+    '
     awx.vm.provision 'ansible-corel-awx', type: 'ansible', run: 'once' do |ansible|
       ansible.compatibility_mode = '2.0'
       ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
@@ -49,13 +54,10 @@ Vagrant.configure('2') do |config|
 ###############
 ### corel-awx-cts ###
 ###############
-Vagrant Box
-Centos 8 provided with my basic tools and ansible."]
-      awx.vm.post_up_message = '
-      #####################################
-      ##   Starting corel-awx-cts done   ##
-      #####################################
-    '
+Centos 8 provisioned with :
+ * Ansible
+ * Awx
+ * Docker"]
     end
   end
 
@@ -64,6 +66,11 @@ Centos 8 provided with my basic tools and ansible."]
     obs.vm.box = 'centos/8'
     obs.vm.hostname = 'corel-obs-cts'
     obs.vm.network 'private_network', ip: '192.168.66.101'
+    obs.vm.post_up_message = '
+      #####################################
+      ##   Starting corel-obs-cts done   ##
+      #####################################
+    '
     obs.vm.provision 'shell-corel-obs', type: 'shell', run: 'once' do |shell|
       shell.path = 'provisioner/shell/corel-obs.sh'
       shell.keep_color = 'true'
@@ -76,13 +83,11 @@ Centos 8 provided with my basic tools and ansible."]
 ###############
 ### corel-obs-cts ###
 ###############
-Vagrant Box
-Centos 8 provided with docker and docker-compose."]
-      obs.vm.post_up_message = '
-      #####################################
-      ##   Starting corel-obs-cts done   ##
-      #####################################
-    '
+Centos 8 provisioned with :
+ * Docker
+ * Grafana
+ * Prometheus"]
     end
+
   end
 end
