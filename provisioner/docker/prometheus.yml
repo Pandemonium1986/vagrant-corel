@@ -32,14 +32,14 @@ scrape_configs:
   - job_name:          'tower'
     metrics_path:      /api/v2/metrics
     scrape_interval:   5s
-    scheme:            https
-    bearer_token:      xxxxxxxxxxxxxxxx
+    scheme:            http
+    bearer_token:      dt70FDjuGe1lRby8slx8gw1suyC6pk
     static_configs:
     - targets:
-      - 192.168.66.101
+      - 192.168.66.100
 
   ## Add Node Exporter
   - job_name:          'tower-01'
     scrape_interval:   5s
     static_configs:
-    - targets:         [ '192.168.66.101:9100' ]
+    - targets:         [ '192.168.66.100:9100' ]

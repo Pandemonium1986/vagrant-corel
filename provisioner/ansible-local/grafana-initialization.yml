@@ -1,0 +1,30 @@
+---
+- name:                       Grafana initialization
+  hosts:                      all
+  gather_facts:               false
+  tasks:
+    - name:                   Ensure Grafana configuration is provide by the control node
+      block:
+        - name:               Create elasticsearch datasource
+          grafana_datasource:
+            name:             "Prometheus"
+            grafana_url:      "http://192.168.66.101:3000"
+            grafana_user:     "admin"
+            grafana_password: "password1*"
+            is_default:       true
+            org_id:           "1"
+            ds_type:          "prometheus"
+            ds_url:           "http://192.168.66.101:9090"
+        - name:               Import Grafana dashboards
+          grafana_dashboard:
+            grafana_url:      "http://192.168.66.101:3000"
+            grafana_user:     "admin"
+            grafana_password: "password1*"
+            state:            present
+            message:          Updated by ansible
+            overwrite:        yes
+            path:             "/vagrant/provisioner/ansible-local/files/{{ item }}.json"
+          loop:
+            - metrics-tower
+            - metrics-server
+      delegate_to:            localhost

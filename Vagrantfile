@@ -78,10 +78,15 @@ Centos 8 provisioned with :
       ##   Starting corel-obs-cts done   ##
       #####################################
     '
-    obs.vm.provision 'shell-corel-obs', type: 'shell', run: 'once' do |shell|
+    obs.vm.provision 'shell-corel-obs', type: 'shell', run: 'always' do |shell|
       shell.path = 'provisioner/shell/corel-obs.sh'
       shell.keep_color = 'true'
       shell.name = 'shell-corel-obs'
+    end
+    obs.vm.provision 'ansible-local-corel-obs', type: 'ansible_local', run: 'once' do |ansible|
+      # ansible.verbose = 'vvv'
+      ansible.compatibility_mode = '2.0'
+      ansible.playbook = 'provisioner/ansible-local/grafana-initialization.yml'
     end
     obs.vm.provider :virtualbox do |vb|
       vb.memory = '2048'
