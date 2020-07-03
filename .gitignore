@@ -2,7 +2,7 @@
 
 ### Ansible ###
 *.retry
-ansible-provisioner/roles/
+provisioner/ansible/roles/
 
 ### Vagrant ###
 # General
