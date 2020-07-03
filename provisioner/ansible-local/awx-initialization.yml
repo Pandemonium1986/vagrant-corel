@@ -14,7 +14,7 @@
     tower_users:
       - { first_name: 'Alice', last_name: 'Liddell', username: 'alice', password: 'password1*', email: 'alice@localhost', organization: 'Redhat', role: 'member', team: 'redhat_admin' }
       - { first_name: 'Bob', last_name: 'Morane', username: 'bob', password: 'password1*', email: 'bob@localhost', organization: 'Redhat', role: 'member', team: 'redhat_auditor' }
-      - { first_name: 'Charlie', last_name: 'Hebdo', username: 'chalire', password: 'password1*', email: 'charlie@localhost', organization: 'Redhat', role: 'member', team: 'redhat_production' }
+      - { first_name: 'Charlie', last_name: 'Hebdo', username: 'charlie', password: 'password1*', email: 'charlie@localhost', organization: 'Redhat', role: 'member', team: 'redhat_production' }
   tasks:
     - name:                    Ensure tower configuration is provide by the control node
       block:
