@@ -104,7 +104,7 @@
             scm_branch:           "keep/demo"
             scm_update_on_launch: true
             tower_config_file:    "{{ tower_config_file }}"
-        - name:                   Ensure job is configured
+        - name:                   Ensure prometheus job is configured
           tower_job_template:
             name:                 "corel-prometheus-job"
             description:          "Corel prometheus configuration job"
@@ -116,5 +116,18 @@
             state:                present
             job_type:             "run"
             playbook:             "prometheus-configuration.yml"
+            tower_config_file:    "{{ tower_config_file }}"
+        - name:                   Ensure exporter job is configured
+          tower_job_template:
+            name:                 "corel-exporter-job"
+            description:          "Corel node_exporter installation job"
+            organization:         "Redhat"
+            inventory:            "corel-static"
+            project:              "corel-demo"
+            credentials:          "corel-ssh-machine"
+            limit:                "192.168.66.100"
+            state:                present
+            job_type:             "run"
+            playbook:             "node-exporter-install.yml"
             tower_config_file:    "{{ tower_config_file }}"
       delegate_to:                localhost
