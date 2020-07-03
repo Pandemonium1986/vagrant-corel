@@ -1,0 +1,49 @@
+---
+version:                                '3.7'
+services:
+  prometheus:
+    image:                              prom/prometheus:latest
+    container_name:                     prometheus
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - cadvisor
+  cadvisor:
+    image:                              google/cadvisor:latest
+    container_name:                     cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - redis
+  redis:
+    image:                              redis:latest
+    container_name:                     redis
+    ports:
+      - 6379:6379
+  grafana:
+    image:                              grafana/grafana:7.0.4
+    container_name:                     grafana
+    secrets:
+      - grafana-secrets
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana-secrets
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-storage:/var/lib/grafana
+volumes:
+  grafana-storage:
+    name:                               grafana-storage
+secrets:
+  grafana-secrets:
+    file:                               ./grafana-secrets
+    name:                               grafana-secrets

@@ -1,0 +1,9 @@
+---
+- name:                Ensure tower teams contains roles
+  tower_role:
+    team:              "{{ organization.org|lower }}_{{ item.0.name }}"
+    organization:      "{{ organization.org }}"
+    role:              "{{ item.1 }}"
+    state:             present
+    tower_config_file: "{{ tower_config_file }}"
+  loop:                "{{ tower_teams|subelements('role') }}"

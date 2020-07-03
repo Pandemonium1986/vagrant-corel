@@ -1,0 +1,96 @@
+---
+- name:                        Awx initialization
+  collections:
+    - awx.awx
+  hosts:                       all
+  gather_facts:                false
+  vars:
+    tower_config_file_path:    "{{ tower_config_file }}"
+    tower_organizations: [ { org: "Amazon" }, { org: "Microsoft" }, { org: "Redhat" }, { org: "Google" } ]
+    tower_teams:
+      - { name: 'admin', description: 'Users with complete control over projects, credentials, inventories and templates', role: [ 'project_admin', 'inventory_admin', 'credential_admin', 'workflow_admin', 'notification_admin', 'job_template_admin' ] }
+      - { name: 'production', description: 'Users who can execute templates', role: [ auditor, execute ] }
+      - { name: 'auditor', description: 'Users who can read organization content', role: [ auditor ] }
+    tower_users:
+      - { first_name: 'Alice', last_name: 'Liddell', username: 'alice', password: 'password1*', email: 'alice@localhost', organization: 'Redhat', role: 'member', team: 'redhat_admin' }
+      - { first_name: 'Bob', last_name: 'Morane', username: 'bob', password: 'password1*', email: 'bob@localhost', organization: 'Redhat', role: 'member', team: 'redhat_auditor' }
+      - { first_name: 'Charlie', last_name: 'Hebdo', username: 'charlie', password: 'password1*', email: 'charlie@localhost', organization: 'Redhat', role: 'member', team: 'redhat_production' }
+  tasks:
+    - name:                    Ensure tower configuration is provide by the control node
+      block:
+        - name:                Ensure tower organization are configured
+          tower_organization:
+            name:              "{{ item.org }}"
+            description:       "Description organization {{ item.org }}"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:                '{{ tower_organizations }}'
+        - name:                Ensure tower teams are configured
+          tower_team:
+            name:              "{{ item.0.org|lower }}_{{ item.1.name }}"
+            description:       "{{ item.1.description }}"
+            organization:      "{{ item.0.org }}"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:                "{{ tower_organizations|product(tower_teams)|list }}"
+        - name:                Ensure tower teams contains roles
+          include_tasks:
+            file:              awx-team-roles.yml
+          loop:                "{{ tower_organizations }}"
+          loop_control:
+            loop_var:          organization
+        - name:                Ensure tower users are configured
+          tower_user:
+            username:          "{{ item.username }}"
+            password:          "{{ item.password }}"
+            email:             "{{ item.email }}"
+            first_name:        "{{ item.first_name }}"
+            last_name:         "{{ item.last_name }}"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:                "{{ tower_users }}"
+        - name:                Ensure tower users are member of a organization
+          tower_role:
+            user:              "{{ item.username }}"
+            organization:      "{{ item.organization }}"
+            role:              "{{ item.role }}"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:                "{{ tower_users }}"
+        - name:                Ensure tower users are member of a team
+          tower_role:
+            user:              "{{ item.username }}"
+            target_team:       "{{item.team}}"
+            role:              "{{ item.role }}"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:                "{{ tower_users }}"
+        - name:                Ensure tower credential is configured
+          tower_credential:
+            name:              redhat-ssh-machine
+            description:       Redhat ssh key machine
+            organization:      Redhat
+            credential_type:   Machine
+            state:             present
+            inputs:
+              username:        vagrant
+              ssh_key_data:    "{{ lookup('file', '/home/vagrant/.ssh/id_ed25519') }}"
+            tower_config_file: "{{ tower_config_file }}"
+        - name:                Ensure tower inventory is configured
+          tower_inventory:
+            name:              "redhat-static"
+            description:       "Redhat static inventory"
+            organization:      "Redhat"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+        - name:                Ensure tower hosts are configured
+          tower_host:
+            name:              "{{ item.ip }}"
+            description:       "Machine {{ item.desc }}"
+            inventory:         redhat-static
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:
+            - { ip: "192.168.66.100", desc: corel-awx-cts }
+            - { ip: "192.168.66.101", desc: corel-obs-cts }
+      delegate_to:             localhost
