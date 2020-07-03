@@ -24,3 +24,36 @@
       pip:
         name:          docker-compose
         executable:    /usr/local/bin/pip
+    - name:            Ensure PasswordAuthentication is enabled
+      lineinfile:
+        path:          /etc/ssh/sshd_config
+        state:         present
+        regexp:        '^PasswordAuthentication no$'
+        line:          'PasswordAuthentication yes'
+        backrefs:      true
+      notify:          RESTART_SSHD
+    - name:            Ensure ssh id_ed25519 are available for vagrant user
+      copy:
+        src:           "{{ item.src }}"
+        dest:          "/home/vagrant/.ssh/{{ item.dest }}"
+        owner:         vagrant
+        group:         vagrant
+        mode:          "{{ item.mode }}"
+      loop:
+        - { src: id_ed25519_insecure, dest: id_ed25519, mode: 600 }
+        - { src: id_ed25519_insecure.pub, dest: id_ed25519.pub, mode: 644 }
+      become:          true
+      become_user:     vagrant
+    - name:            Set authorized key taken from file
+      authorized_key:
+        user:          vagrant
+        state:         present
+        key:           "{{ lookup('file', 'id_ed25519_insecure.pub') }}"
+      become:          true
+      become_user:     vagrant
+  handlers:
+    - name:            Restart sshd
+      systemd:
+        name:          sshd
+        state:         restarted
+      listen:          RESTART_SSHD
