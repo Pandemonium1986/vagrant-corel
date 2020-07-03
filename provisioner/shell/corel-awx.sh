@@ -9,6 +9,6 @@
 ### Vagrant ###
 ###############
 su - vagrant -c 'cd /home/vagrant/git/ansible/awx/installer && ansible-playbook install.yml -i inventory'
-su - vagrant -c 'sleep 30 && cd /home/vagrant/.awx/awxcompose && docker-compose down && docker-compose up -d'
+su - vagrant -c 'sleep 30 && cd /home/vagrant/.awx/awxcompose && docker-compose down && docker-compose up -d && sleep 90'
 su - vagrant -c 'ansible-galaxy collection install awx.awx'
 # su - vagrant -c 'cd  /home/vagrant/git/redhat-cop/tower_grafana_dashboards && ansible-playbook install_node_exporter.yaml'
