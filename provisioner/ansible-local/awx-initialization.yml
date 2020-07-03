@@ -65,4 +65,15 @@
             state:             present
             tower_config_file: "{{ tower_config_file }}"
           loop:                "{{ tower_users }}"
+        - name:                Ensure tower credential is configured
+          tower_credential:
+            name:              redhat-ssh-machine
+            description:       Redhat ssh key machine
+            organization:      Redhat
+            credential_type:   Machine
+            state:             present
+            inputs:
+              username:        vagrant
+              ssh_key_data:    "{{ lookup('file', '/home/vagrant/.ssh/id_ed25519') }}"
+            tower_config_file: "{{ tower_config_file }}"
       delegate_to:             localhost
