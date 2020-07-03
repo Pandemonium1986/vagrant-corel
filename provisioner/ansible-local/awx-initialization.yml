@@ -76,4 +76,21 @@
               username:        vagrant
               ssh_key_data:    "{{ lookup('file', '/home/vagrant/.ssh/id_ed25519') }}"
             tower_config_file: "{{ tower_config_file }}"
+        - name:                Ensure tower inventory is configured
+          tower_inventory:
+            name:              "redhat-static"
+            description:       "Redhat static inventory"
+            organization:      "Redhat"
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+        - name:                Ensure tower hosts are configured
+          tower_host:
+            name:              "{{ item.ip }}"
+            description:       "Machine {{ item.desc }}"
+            inventory:         redhat-static
+            state:             present
+            tower_config_file: "{{ tower_config_file }}"
+          loop:
+            - { ip: "192.168.66.100", desc: corel-awx-cts }
+            - { ip: "192.168.66.101", desc: corel-obs-cts }
       delegate_to:             localhost
