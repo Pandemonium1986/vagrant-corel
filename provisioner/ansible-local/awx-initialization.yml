@@ -116,6 +116,7 @@
             state:                present
             job_type:             "run"
             playbook:             "prometheus-configuration.yml"
+            webhook_service:      "github"
             tower_config_file:    "{{ tower_config_file }}"
         - name:                   Ensure exporter job is configured
           tower_job_template:
