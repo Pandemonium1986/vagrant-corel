@@ -13,7 +13,21 @@ Collection of virtual machines containing tools for lab, study or demonstration 
 This project build two virtualbox vms from [centos/8](https://app.vagrantup.com/centos/boxes/8).  
 Both boxes are provided with ansible. Allowing to deploy all the tools I use for lab, study or demonstration.
 
+**Awx**  
+
+> AWX provides a web-based user interface, REST API, and task engine built on top of Ansible. It is the upstream project for Tower, a commercial derivative of AWX.
+
+**Prometheus**  
+
+> Prometheus, a Cloud Native Computing Foundation project, is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts if some condition is observed to be true.
+
+**Prometheus**  
+
+> Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored.
+
 ### Prerequisites
+
+The following software are required to build the boxes :
 
 -   [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
 -   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
@@ -58,6 +72,30 @@ vagrant provision corel[-awx|-obs]-cts
 | Awx        | corel-awx-cts | [http://awx.lan](http://192.168.66.100)             | admin/password |
 | Grafana    | corel-obs-cts | [http://grafana.lan](http://192.168.66.101:9090)    | admin/admin    |
 | Prometheus | corel-obs-cts | [http://prometheus.lan](http://192.168.66.101:3000) | -              |
+
+### Awx
+
+He configure awx with :
+
+-   Create a few organizations.
+-   Add Alice, Bob, Charlie into redhat organization.
+-   Create corel-awx-cts and corel-obs-cts hosts.
+-   Create redhat-inventory with the previous hosts.
+-   Create redhat ssh-key to access previous hosts.
+
+### Grafana
+
+He configure grafana with :
+
+-   Configure admin password.
+-   Create datasource prometheus.
+-   Import metrics-server and metrics-tower dashboards.
+
+### Prometheus
+
+He configure prometheus with :
+
+-   Create scraping jobs prometheus, server, tower
 
 ## Built With
 

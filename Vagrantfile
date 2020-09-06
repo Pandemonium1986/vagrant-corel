@@ -32,6 +32,7 @@ Vagrant.configure('2') do |config|
     awx.vm.box = 'centos/8'
     awx.vm.hostname = 'corel-awx-cts'
     awx.vm.network 'private_network', ip: '192.168.66.100'
+    awx.vm.network 'forwarded_port', guest: 80, host: 8086, protocol: 'tcp', id: 'github-fwd'
     awx.vm.post_up_message = '
       #####################################
       ##   Starting corel-awx-cts done   ##
