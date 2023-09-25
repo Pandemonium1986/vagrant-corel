@@ -22,7 +22,7 @@
         version:    "{{ item.version }}"
       loop:
         - { repo: "https://github.com/ansible/awx.git", dest: "/home/vagrant/git/ansible/awx", version: 13.0.0 }
-        - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: master }
+        - { repo: "https://github.com/redhat-cop/tower_grafana_dashboards.git", dest: "/home/vagrant/git/redhat-cop/tower_grafana_dashboards", version: main }
       become:       true
       become_user:  vagrant
     - name:         Ensure pip package awx-cli is install
