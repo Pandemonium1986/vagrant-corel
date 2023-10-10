@@ -1,10 +1,11 @@
+<!-- markdownlint-disable MD036 -->
 # Vagrant Corel
 
 [![Vagrant Cloud](https://img.shields.io/badge/vagrant-corel-lightgrey.svg)](https://app.vagrantup.com/pandemonium/)
-![](https://img.shields.io/github/release/Pandemonium1986/vagrant-corel.svg)
-![](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-corel.svg)
-![](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-corel.svg)
-![](https://img.shields.io/github/license/Pandemonium1986/vagrant-corel.svg)
+![release](https://img.shields.io/github/release/Pandemonium1986/vagrant-corel.svg)
+![repo-size](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-corel.svg)
+![release-date](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-corel.svg)
+![license](https://img.shields.io/github/license/Pandemonium1986/vagrant-corel.svg)
 
 Collection of virtual machines containing tools for lab, study or demonstration purposes.
 
@@ -29,9 +30,9 @@ Both boxes are provided with ansible. Allowing to deploy all the tools I use for
 
 The following software are required to build the boxes :
 
--   [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
--   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
--   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
+- [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
 
 ## Building
 
@@ -77,31 +78,31 @@ vagrant provision corel[-awx|-obs]-cts
 
 He configure awx with :
 
--   Create a few organizations.
--   Add Alice, Bob, Charlie into redhat organization.
--   Create corel-awx-cts and corel-obs-cts hosts.
--   Create redhat-inventory with the previous hosts.
--   Create redhat ssh-key to access previous hosts.
+- Create a few organizations.
+- Add Alice, Bob, Charlie into redhat organization.
+- Create corel-awx-cts and corel-obs-cts hosts.
+- Create redhat-inventory with the previous hosts.
+- Create redhat ssh-key to access previous hosts.
 
 ### Grafana
 
 He configure grafana with :
 
--   Configure admin password.
--   Create datasource prometheus.
--   Import metrics-server and metrics-tower dashboards.
+- Configure admin password.
+- Create datasource prometheus.
+- Import metrics-server and metrics-tower dashboards.
 
 ### Prometheus
 
 He configure prometheus with :
 
--   Create scraping jobs prometheus, server, tower
+- Create scraping jobs prometheus, server, tower
 
 ## Built With
 
--   [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
--   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
--   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
+- [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
 
 ## Contributing
 
@@ -113,7 +114,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
--   **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
+- **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
 
 See also the list of [contributors](https://github.com/Pandemonium1986/vagrant-corel/contributors) who participated in this project.
 
